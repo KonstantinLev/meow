@@ -108,7 +108,6 @@ class View extends BaseApp
 //            //return "Unable to resolve view file for view '$view': no active view context.";
 //            //throw new InvalidCallException("Unable to resolve view file for view '$view': no active view context.");
 //        }
-
         $file = $controller->getViewPath() . DIRECTORY_SEPARATOR . ltrim($view, '/');
         if (pathinfo($file, PATHINFO_EXTENSION) !== '') {
             return $file;
@@ -124,9 +123,6 @@ class View extends BaseApp
         /*elseif (($currentViewFile = $this->getViewFile()) !== false) {
             $file = dirname($currentViewFile) . DIRECTORY_SEPARATOR . $view;
         }*/
-
-
-
         return $path;
     }
 }

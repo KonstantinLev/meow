@@ -15,18 +15,17 @@ use meow\base\BaseApp;
 
 abstract class Controller extends BaseApp
 {
-    public $id;
+    //public $id;
     public $action;
 
+    public $basePath = 'index/index';
+
     private $view;
-    private $viewPath = null;
+    private $viewPath = '@app/views';
 
     public $layout = 'index';
     public $viewName;
     public $viewData;
-
-    public $basePath;
-
 
 //    function __call($methodName, $args=array()){
 //        if (method_exists($this, $methodName))
@@ -39,9 +38,16 @@ abstract class Controller extends BaseApp
     {
         $config = Meow::$app->_config['routing'];
         //TODO если не заданы обработать
-        $this->layout = $config['layout'];
-        $this->basePath = $config['basePath'];
+        $this->layout = isset($config['layout'])
+            ? $config['layout']
+            : $this->layout;
+        $this->basePath = isset($config['basePath'])
+            ? $config['basePath']
+            : $this->basePath;
         //$this->viewPath = $config['baseViewsPath'] . DIRECTORY_SEPARATOR . Meow::$app->controllerName;
+        $this->viewPath = isset($config['baseViewsPath'])
+            ? $config['baseViewsPath']
+            : $this->viewPath;
         parent::__construct([]);
     }
 
@@ -71,7 +77,6 @@ abstract class Controller extends BaseApp
                 } else {
                     $response = Meow::$app->response;
                     if ($content !== null){
-                        //TODO обработать
                         $response->data = $content;
                     }
                     return $response;
@@ -97,8 +102,6 @@ abstract class Controller extends BaseApp
     {
         $content = $this->getView()->render($this, $view, $params);
         return $this->renderContent($content);
-        //Meow::$app->view = new View($this, $view);
-        //return Meow::$app->view->getContent($_params);
     }
 
     public function renderContent($content)
@@ -110,13 +113,6 @@ abstract class Controller extends BaseApp
         return $content;
     }
 
-    /**
-     * Finds the applicable layout file.
-     * @param View $view the view object to render the layout file.
-     * @return string|bool the layout file path, or false if layout is not needed.
-     * Please refer to [[render()]] on how to specify this parameter.
-     * @throws InvalidParamException if an invalid path alias is used to specify the layout.
-     */
     public function findLayoutFile($view)
     {
         if (is_string($this->layout)) {
@@ -151,6 +147,8 @@ abstract class Controller extends BaseApp
     {
         if ($this->viewPath === null) {
             $this->viewPath = Meow::$app->getViewPath() . DIRECTORY_SEPARATOR . Meow::$app->controllerName;
+        } else {
+            $this->viewPath = Meow::getAlias($this->viewPath). DIRECTORY_SEPARATOR . Meow::$app->controllerName;
         }
         return $this->viewPath;
     }
