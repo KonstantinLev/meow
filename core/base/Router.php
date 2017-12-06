@@ -70,6 +70,8 @@ class Router extends BaseApp
      * @throws \Exception
      */
     public function defaultResolve(){
+        Meow::$app->controllerName = strtolower($this->controller);
+        Meow::$app->actionName = strtolower($this->action);
         $controller = $this->controller.'Controller';
         $action = 'action'.$this->action;
         $controllerPath = Meow::getAlias($this->controllersPath).DIRECTORY_SEPARATOR.$controller.'.php';
@@ -78,7 +80,7 @@ class Router extends BaseApp
             /**
              * @var Controller $controllerClass
              */
-            $controllerClass = new $className();
+            Meow::$app->controller = $controllerClass = new $className();
             return $controllerClass->runAction($action, Meow::$app->request->request);
         } else {
             return false;

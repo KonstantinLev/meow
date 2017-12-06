@@ -11,7 +11,17 @@ namespace core\base;
 use Meow;
 use core\helpers\Inflector;
 
-
+/**
+ * @property array request
+ * @property array post
+ * @property array get
+ * @property bool isPost
+ * @property bool isAjax
+ * @property bool isGet
+ * @property string url
+ * @property string baseUrl
+ * @property string scriptFile
+ */
 class Request extends BaseApp
 {
     private $scriptFile;
@@ -20,6 +30,9 @@ class Request extends BaseApp
 
     private $isPost = false;
     private $isGet = false;
+    /**
+     * @var
+     */
     private $get;
     private $post;
 
@@ -91,5 +104,41 @@ class Request extends BaseApp
             return $this->request[$name];
         }
         return null;
+    }
+
+    public function getPost()
+    {
+        return $this->post;
+    }
+
+    public function post($name)
+    {
+        if (isset($this->post[$name])){
+            return $this->post[$name];
+        }
+        return null;
+    }
+
+    public function getGet()
+    {
+        return $this->get;
+    }
+
+    public function get($name)
+    {
+        if (isset($this->get[$name])){
+            return $this->get[$name];
+        }
+        return null;
+    }
+
+    public function getIsGet()
+    {
+        return $this->isGet;
+    }
+
+    public function getIsPost()
+    {
+        return $this->isPost;
     }
 }

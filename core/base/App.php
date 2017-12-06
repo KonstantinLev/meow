@@ -19,7 +19,6 @@ class App extends BaseApp
      * @var Connection
      */
     public $db;
-    public $basePath;
 
     /**
      * @var Request
@@ -30,12 +29,33 @@ class App extends BaseApp
      * @var Response
      */
     public $response;
+
+    /**
+     * @var Router
+     */
     public $router;
     /**
      * @var AssetManager
      */
     public $assetM;
+
     public $charset = 'UTF-8';
+
+    /**
+     * @var View
+     */
+    public $view;
+
+    public $basePath;
+    public $layoutPath;
+    public $viewPath;
+
+    /**
+     * @var Controller
+     */
+    public $controller;
+    public $controllerName;
+    public $actionName;
 
     public function __construct($config = [])
     {
@@ -72,11 +92,6 @@ class App extends BaseApp
         return $this->db;
     }
 
-    public function getBasePath()
-    {
-        return $this->basePath;
-    }
-
     /**
      * @return Response
      */
@@ -84,11 +99,50 @@ class App extends BaseApp
         return $this->response;
     }
 
-    private function setBasePath($path)
+    public function getBasePath()
+    {
+        //return $this->basePath;
+        if ($this->basePath === null) {
+            $class = new \ReflectionClass($this);
+            $this->basePath = dirname($class->getFileName());
+        }
+
+        return $this->basePath;
+    }
+
+    public function setBasePath($path)
     {
         $this->basePath = $path;
         Meow::setAlias('@app', $this->getBasePath());
     }
+
+    public function getLayoutPath()
+    {
+        if ($this->layoutPath === null) {
+            $this->layoutPath = $this->getViewPath() . DIRECTORY_SEPARATOR . 'layouts';
+        }
+        return $this->layoutPath;
+    }
+
+    public function setLayoutPath($path)
+    {
+        $this->layoutPath = Meow::getAlias($path);
+    }
+
+    public function getViewPath()
+    {
+        if ($this->viewPath === null) {
+            $this->viewPath = $this->getBasePath() . DIRECTORY_SEPARATOR . 'views';
+        }
+        return $this->viewPath;
+    }
+
+    public function setViewPath($path)
+    {
+        $this->viewPath = Meow::getAlias($path);
+    }
+
+
 
     private function preInit($config)
     {
