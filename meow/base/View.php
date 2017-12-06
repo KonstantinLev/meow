@@ -88,27 +88,25 @@ class View extends BaseApp
     {
 //        if (strncmp($view, '@', 1) === 0) {
 //            // e.g. "@app/views/main"
-//            $file = Meow::getAlias($view);
+//            $file = Yii::getAlias($view);
 //        } elseif (strncmp($view, '//', 2) === 0) {
 //            // e.g. "//layouts/main"
-//            $file = Meow::$app->getViewPath() . DIRECTORY_SEPARATOR . ltrim($view, '/');
+//            $file = Yii::$app->getViewPath() . DIRECTORY_SEPARATOR . ltrim($view, '/');
 //        } elseif (strncmp($view, '/', 1) === 0) {
 //            // e.g. "/site/index"
-//            if (Meow::$app->controller !== null) {
-//                $file = Meow::$app->getViewPath() . DIRECTORY_SEPARATOR . ltrim($view, '/');
+//            if (Yii::$app->controller !== null) {
+//                $file = Yii::$app->controller->module->getViewPath() . DIRECTORY_SEPARATOR . ltrim($view, '/');
 //            } else {
-//                //TODO обработать
-//                return "Unable to locate view file for view '$view': no active controller.";
-//                //throw new InvalidCallException("Unable to locate view file for view '$view': no active controller.");
+//                throw new InvalidCallException("Unable to locate view file for view '$view': no active controller.");
 //            }
+//        } elseif ($context instanceof ViewContextInterface) {
+//            $file = $context->getViewPath() . DIRECTORY_SEPARATOR . $view;
+//        } elseif (($currentViewFile = $this->getViewFile()) !== false) {
+//            $file = dirname($currentViewFile) . DIRECTORY_SEPARATOR . $view;
 //        } else {
-//            //TODO обработать
-//            $file = Meow::$app->getViewPath() . DIRECTORY_SEPARATOR . ltrim($view, '/');
-//            return $file;
-//            //return "Unable to resolve view file for view '$view': no active view context.";
-//            //throw new InvalidCallException("Unable to resolve view file for view '$view': no active view context.");
+//            throw new \Exception("Unable to resolve view file for view '$view': no active view context.");
 //        }
-        $file = $controller->getViewPath() . DIRECTORY_SEPARATOR . ltrim($view, '/');
+        $file = $controller->getViewPath() . DIRECTORY_SEPARATOR . $view;
         if (pathinfo($file, PATHINFO_EXTENSION) !== '') {
             return $file;
         }
@@ -117,12 +115,6 @@ class View extends BaseApp
             $path = $file . '.php';
         }
 
-        /*elseif ($controller instanceof ViewContextInterface) {
-            $file = $controller->getViewPath() . DIRECTORY_SEPARATOR . $view;
-        }*/
-        /*elseif (($currentViewFile = $this->getViewFile()) !== false) {
-            $file = dirname($currentViewFile) . DIRECTORY_SEPARATOR . $view;
-        }*/
         return $path;
     }
 }

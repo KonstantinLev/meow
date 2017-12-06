@@ -16,23 +16,15 @@ use meow\base\BaseApp;
 abstract class Controller extends BaseApp
 {
     //public $id;
-    public $action;
+    //public $action;
 
     public $basePath = 'index/index';
-
     private $view;
     private $viewPath = '@app/views';
 
-    public $layout = 'index';
+    public $layout = '@app/views/layouts/index';
     public $viewName;
     public $viewData;
-
-//    function __call($methodName, $args=array()){
-//        if (method_exists($this, $methodName))
-//            return call_user_func_array(array($this,$methodName),$args);
-//        else
-//            throw new Except('In controller '.get_called_class().' method '.$methodName.' not found!');
-//    }
 
     public function __construct()
     {
@@ -127,10 +119,9 @@ abstract class Controller extends BaseApp
             $file = Meow::getAlias($layout);
         } elseif (strncmp($layout, '/', 1) === 0) {
             $file = Meow::$app->getLayoutPath() . DIRECTORY_SEPARATOR . substr($layout, 1);
+        } else {
+            $file = Meow::$app->getLayoutPath() . DIRECTORY_SEPARATOR . $layout;
         }
-//        } else {
-//            $file = $module->getLayoutPath() . DIRECTORY_SEPARATOR . $layout;
-//        }
 
         if (pathinfo($file, PATHINFO_EXTENSION) !== '') {
             return $file;
@@ -152,20 +143,4 @@ abstract class Controller extends BaseApp
         }
         return $this->viewPath;
     }
-
-
-    //TODO доделать
-    public function addScript($link, $where = 'head'){
-        Meow::$app->assetM->addAsset($link, $where);
-    }
-    public function addStyleSheet($link, $where = 'head'){
-        Meow::$app->assetM->addAsset($link, $where, 'style');
-    }
-    public function addScriptDeclaration($data, $where = 'head'){
-        Meow::$app->assetM->addAsset($data, $where, 'script', 'inline');
-    }
-    public function addStyleSheetDeclaration($data, $where = 'head'){
-        Meow::$app->assetM->addAsset($data, $where, 'style', 'inline');
-    }
-
 }
