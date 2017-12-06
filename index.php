@@ -7,7 +7,7 @@
  */
 mb_internal_encoding('UTF-8');
 
-require(__DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'Meow.php');
+require(__DIR__ . DIRECTORY_SEPARATOR . 'meow' . DIRECTORY_SEPARATOR . 'Meow.php');
 $config = require(__DIR__ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php');
 
-(new \core\base\App($config))->run();
+(new \meow\base\App($config))->run();

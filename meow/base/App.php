@@ -7,12 +7,24 @@
  * Time: 20:53
  */
 
-namespace core\base;
+namespace meow\base;
 
 use Meow;
 
-use core\db\Connection;
+use meow\db\Connection;
 
+/**
+ * Class App
+ * @property Request request
+ * @property Response response
+ * @property Connection db
+ * @property string basePath
+ * @property array config
+ * @property AssetManager assetM
+ * @property string charset
+ * @property Router router
+ * @package meow\base
+ */
 class App extends BaseApp
 {
     /**
@@ -68,11 +80,11 @@ class App extends BaseApp
     public function run()
     {
 //        static::$instance = $this;
-        $this->response = new Response();
+        $this->request = new Request();
+
 //        $response = $this->_router->route();
 //        $response->send();
 //        return $response->exitStatus;
-        $this->request = new Request();
         //TODO обработать метод
         $this->db = new Connection(isset($this->_config['db']) ? $this->_config['db'] : []);
         //if (isset($this->_config['db'])){
@@ -80,7 +92,12 @@ class App extends BaseApp
         //}
         $this->assetM = new AssetManager(isset($this->_config['assets']) ? $this->_config['assets'] : []);
         $this->router = new Router(isset($this->_config['routing']) ? $this->_config['routing'] : []);
-        $this->router->route();
+        $this->response = new Response();
+        $response = $this->router->route();
+        $response->send();
+        //TODO возвращаемое значение
+        //return $response->exitStatus;
+
 //        $this->request = new Request();
 //        Meow::setAlias('@web', $this->request->baseUrl);
 //        Meow::setAlias('@webroot', dirname($this->request->scriptFile));

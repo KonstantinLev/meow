@@ -6,11 +6,19 @@
  * Time: 7:40
  */
 
-namespace core\base;
+namespace meow\base;
 
 use Meow;
-use core\helpers\Inflector;
+use meow\helpers\Inflector;
 
+/**
+ * Class Router
+ * @package meow\base
+ *
+ * @property string controller
+ * @property string action
+ * @property string route
+ */
 class Router extends BaseApp
 {
     private $defaultController = 'Index';

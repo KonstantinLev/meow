@@ -6,7 +6,7 @@
  * Time: 5:16 PM
  */
 
-namespace core\base;
+namespace meow\base;
 
 use Meow;
 

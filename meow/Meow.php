@@ -9,7 +9,7 @@
 
 require(__DIR__ . '/SuperMeow.php');
 
-class Meow extends \core\SuperMeow{}
+class Meow extends \meow\SuperMeow{}
 
 defined('MEOW_PATH') or define('MEOW_PATH', __DIR__);
 

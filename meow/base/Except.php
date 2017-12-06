@@ -6,7 +6,7 @@
  * Time: 8:45
  */
 
-namespace core\base;
+namespace meow\base;
 
 
 class Except extends \Exception

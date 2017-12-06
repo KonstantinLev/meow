@@ -6,9 +6,9 @@
  * Time: 21:24
  */
 
-namespace core\base;
+namespace meow\base;
 
-use core\helpers\ArrayHelper;
+use meow\helpers\ArrayHelper;
 
 
 abstract class Configurable

@@ -9,7 +9,7 @@
 
 namespace app\controllers;
 
-use core\base\Controller;
+use meow\base\Controller;
 
 
 //require_once 'libs/CoreController.php';

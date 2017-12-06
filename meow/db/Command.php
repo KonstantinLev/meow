@@ -6,7 +6,7 @@
  * Time: 0:06
  */
 
-namespace core\db;
+namespace meow\db;
 
 
 class Command

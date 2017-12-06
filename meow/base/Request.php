@@ -6,10 +6,10 @@
  * Time: 9:29 AM
  */
 
-namespace core\base;
+namespace meow\base;
 
 use Meow;
-use core\helpers\Inflector;
+use meow\helpers\Inflector;
 
 /**
  * @property array request

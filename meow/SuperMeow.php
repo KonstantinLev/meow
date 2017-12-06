@@ -7,7 +7,7 @@
  * Time: 21:41
  */
 
-namespace core;
+namespace meow;
 
 class SuperMeow
 {
@@ -17,7 +17,7 @@ class SuperMeow
     public static $classes = [];
 
     /**
-     * @var \core\base\App the application instance
+     * @var \meow\base\App the application instance
      */
     public static $app;
 

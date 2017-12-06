@@ -6,7 +6,7 @@
  * Time: 21:23
  */
 
-namespace core\base;
+namespace meow\base;
 
 
 abstract class BaseApp extends Configurable

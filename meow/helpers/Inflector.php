@@ -6,7 +6,7 @@
  * Time: 9:42 AM
  */
 
-namespace core\helpers;
+namespace meow\helpers;
 
 class Inflector
 {

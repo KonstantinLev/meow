@@ -6,11 +6,11 @@
  * Time: 8:27
  */
 
-namespace core\base;
+namespace meow\base;
 
 use Meow;
-use core\base\Except;
-use core\base\BaseApp;
+use meow\base\Except;
+use meow\base\BaseApp;
 
 
 abstract class Controller extends BaseApp
@@ -19,7 +19,7 @@ abstract class Controller extends BaseApp
     public $action;
 
     private $view;
-    private $viewPath;
+    private $viewPath = null;
 
     public $layout = 'index';
     public $viewName;
@@ -41,7 +41,7 @@ abstract class Controller extends BaseApp
         //TODO если не заданы обработать
         $this->layout = $config['layout'];
         $this->basePath = $config['basePath'];
-        $this->viewPath = $config['baseViewsPath'];
+        //$this->viewPath = $config['baseViewsPath'] . DIRECTORY_SEPARATOR . Meow::$app->controllerName;
         parent::__construct([]);
     }
 
@@ -49,7 +49,6 @@ abstract class Controller extends BaseApp
 
     public final function runAction($action, $params = []){
         //if ($this->beforeAction($action, $params) !== false){
-        $a = 13;
             if (method_exists($this, $action)) {
                 $ref = new \ReflectionMethod($this, $action);
                 if (!empty($ref->getParameters())) {

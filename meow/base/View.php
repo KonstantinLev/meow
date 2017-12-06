@@ -6,7 +6,7 @@
  * Time: 20:49
  */
 
-namespace core\base;
+namespace meow\base;
 
 
 use Meow;
@@ -73,6 +73,7 @@ class View extends BaseApp
         ob_start();
         ob_implicit_flush(false);
         extract($_params_, EXTR_OVERWRITE);
+
         require($_file_);
 
         return ob_get_clean();
@@ -85,27 +86,36 @@ class View extends BaseApp
      */
     protected function findViewFile($controller = null, $view)
     {
-        if (strncmp($view, '@', 1) === 0) {
-            // e.g. "@app/views/main"
-            $file = Meow::getAlias($view);
-        } elseif (strncmp($view, '//', 2) === 0) {
-            // e.g. "//layouts/main"
-            $file = Meow::$app->getViewPath() . DIRECTORY_SEPARATOR . ltrim($view, '/');
-        } elseif (strncmp($view, '/', 1) === 0) {
-            // e.g. "/site/index"
-            if (Meow::$app->controller !== null) {
-                $file = Meow::$app->getViewPath() . DIRECTORY_SEPARATOR . ltrim($view, '/');
-            } else {
-                //TODO обработать
-                return "Unable to locate view file for view '$view': no active controller.";
-                //throw new InvalidCallException("Unable to locate view file for view '$view': no active controller.");
-            }
-        } else {
-            //TODO обработать
-            $file = Meow::$app->getViewPath() . DIRECTORY_SEPARATOR . ltrim($view, '/');
+//        if (strncmp($view, '@', 1) === 0) {
+//            // e.g. "@app/views/main"
+//            $file = Meow::getAlias($view);
+//        } elseif (strncmp($view, '//', 2) === 0) {
+//            // e.g. "//layouts/main"
+//            $file = Meow::$app->getViewPath() . DIRECTORY_SEPARATOR . ltrim($view, '/');
+//        } elseif (strncmp($view, '/', 1) === 0) {
+//            // e.g. "/site/index"
+//            if (Meow::$app->controller !== null) {
+//                $file = Meow::$app->getViewPath() . DIRECTORY_SEPARATOR . ltrim($view, '/');
+//            } else {
+//                //TODO обработать
+//                return "Unable to locate view file for view '$view': no active controller.";
+//                //throw new InvalidCallException("Unable to locate view file for view '$view': no active controller.");
+//            }
+//        } else {
+//            //TODO обработать
+//            $file = Meow::$app->getViewPath() . DIRECTORY_SEPARATOR . ltrim($view, '/');
+//            return $file;
+//            //return "Unable to resolve view file for view '$view': no active view context.";
+//            //throw new InvalidCallException("Unable to resolve view file for view '$view': no active view context.");
+//        }
+
+        $file = $controller->getViewPath() . DIRECTORY_SEPARATOR . ltrim($view, '/');
+        if (pathinfo($file, PATHINFO_EXTENSION) !== '') {
             return $file;
-            //return "Unable to resolve view file for view '$view': no active view context.";
-            //throw new InvalidCallException("Unable to resolve view file for view '$view': no active view context.");
+        }
+        $path = $file . '.' . $this->defaultExtension;
+        if ($this->defaultExtension !== 'php' && !is_file($path)) {
+            $path = $file . '.php';
         }
 
         /*elseif ($controller instanceof ViewContextInterface) {
@@ -115,13 +125,7 @@ class View extends BaseApp
             $file = dirname($currentViewFile) . DIRECTORY_SEPARATOR . $view;
         }*/
 
-        if (pathinfo($file, PATHINFO_EXTENSION) !== '') {
-            return $file;
-        }
-        $path = $file . '.' . $this->defaultExtension;
-        if ($this->defaultExtension !== 'php' && !is_file($path)) {
-            $path = $file . '.php';
-        }
+
 
         return $path;
     }

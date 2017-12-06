@@ -7,7 +7,7 @@
  * Time: 21:26
  */
 
-namespace core\helpers;
+namespace meow\helpers;
 
 class ArrayHelper
 {

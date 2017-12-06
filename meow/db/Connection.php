@@ -7,10 +7,10 @@
  * Time: 20:59
  */
 
-namespace core\db;
+namespace meow\db;
 
 use Meow;
-use core\base\BaseApp;
+use meow\base\BaseApp;
 use PDO;
 
 class Connection extends BaseApp
