@@ -16,6 +16,9 @@ class MeowAsset extends AssetBundle
     //public $sourcePath = '@meow/assets';
     public $basePath = '@meow/assets';
     public $jsFiles = [
-        'main.js',
+        'meow.js',
+    ];
+    public $cssFiles = [
+        'meow.css',
     ];
 }

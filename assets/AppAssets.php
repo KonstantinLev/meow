@@ -11,14 +11,17 @@ use meow\base\AssetBundle;
 
 class AppAssets extends AssetBundle
 {
-    public $basePath = '@webroot/web';
+    public $basePath = '@webroot';
     public $baseUrl = '@web';
 
     public $cssFiles = [
         'css/main.css',
+        'css/script.css',
+        'css/work.css',
     ];
     public $jsFiles = [
         'js/main.js',
+        'js/work.js',
     ];
     public $depends = [
         'meow\assets\MeowAsset',

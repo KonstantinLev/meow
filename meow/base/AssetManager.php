@@ -46,7 +46,7 @@ class AssetManager extends BaseApp
             $this->basePath = realpath($this->basePath);
         }
         //$this->baseUrl = rtrim(Meow::getAlias($this->baseUrl), '/');
-        $this->baseUrl = FileHelper::normalizePath(Meow::getAlias('@webroot') . '\\web\\');
+        $this->baseUrl = FileHelper::normalizePath(Meow::getAlias('@web') . '\\assets\\');
 
 
 
@@ -110,26 +110,23 @@ class AssetManager extends BaseApp
 
     public function publishFile($path)
     {
-        $a = Meow::getAlias($path);
         $path = FileHelper::normalizePath(Meow::getAlias($path));
         if (is_file($path)) {
-            $assetPath = $this->baseUrl . DIRECTORY_SEPARATOR . basename($path);
+            $assetPath = $this->basePath . DIRECTORY_SEPARATOR . basename($path);
             if (is_file($assetPath)) {
                 if (md5_file($assetPath) !== md5_file($path)) {
                     copy($path, $assetPath);
-                    @chmod($path, $this->fileMode);
+                    @chmod($assetPath, $this->fileMode);
                 }
             } else {
                 if (FileHelper::createDirectory(dirname($assetPath), $this->dirMode)) {
                     copy($path, $assetPath);
-                    @chmod($path, $this->fileMode);
+                    @chmod($assetPath, $this->fileMode);
                 }
             }
             //return 'assets/' . basename($assetPath);
-            //TODO использовать baseUrl
-            return $assetPath;
+            return $this->baseUrl . DIRECTORY_SEPARATOR . basename($path);
         }
         return false;
     }
-
 }
