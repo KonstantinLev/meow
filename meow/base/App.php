@@ -51,6 +51,9 @@ class App extends BaseApp
      */
     public $assetM;
 
+    /**
+     * @var string
+     */
     public $charset = 'UTF-8';
 
     /**
@@ -58,15 +61,34 @@ class App extends BaseApp
      */
     public $view;
 
+    /**
+     * @var
+     */
     public $basePath;
+
+    /**
+     * @var
+     */
     public $layoutPath;
+
+    /**
+     * @var
+     */
     public $viewPath;
 
     /**
      * @var Controller
      */
     public $controller;
+
+    /**
+     * @var
+     */
     public $controllerName;
+
+    /**
+     * @var
+     */
     public $actionName;
 
     public function __construct($config = [])
@@ -79,31 +101,30 @@ class App extends BaseApp
 
     public function run()
     {
-//        static::$instance = $this;
+        if (isset($this->_config['db'])){
+            $this->db = new Connection($this->_config['db']);
+            unset($this->_config['db']);
+        }
+
         $this->request = new Request();
 
-//        $response = $this->_router->route();
-//        $response->send();
-//        return $response->exitStatus;
-        //TODO обработать метод
-        $this->db = new Connection(isset($this->_config['db']) ? $this->_config['db'] : []);
-        //if (isset($this->_config['db'])){
-        //unset($this->_config['db']);
-        //}
+        Meow::setAlias('@web', $this->request->baseUrl);
+        Meow::setAlias('@webroot', dirname($this->request->scriptFile));
+        Meow::setAlias('@meow', MEOW_PATH);
+
         $this->assetM = new AssetManager(isset($this->_config['assets']) ? $this->_config['assets'] : []);
         $this->router = new Router(isset($this->_config['routing']) ? $this->_config['routing'] : []);
         $this->response = new Response();
+
         $response = $this->router->route();
         $response->send();
         //TODO возвращаемое значение
         //return $response->exitStatus;
-
-//        $this->request = new Request();
-//        Meow::setAlias('@web', $this->request->baseUrl);
-//        Meow::setAlias('@webroot', dirname($this->request->scriptFile));
-//        Meow::setAlias('@meow', MEOW_PATH);
     }
 
+    /**
+     * @return Connection
+     */
     public function getDb()
     {
         return $this->db;
@@ -116,6 +137,9 @@ class App extends BaseApp
         return $this->response;
     }
 
+    /**
+     * @return string
+     */
     public function getBasePath()
     {
         //return $this->basePath;
@@ -127,12 +151,18 @@ class App extends BaseApp
         return $this->basePath;
     }
 
+    /**
+     * @param $path
+     */
     public function setBasePath($path)
     {
         $this->basePath = $path;
         Meow::setAlias('@app', $this->getBasePath());
     }
 
+    /**
+     * @return string
+     */
     public function getLayoutPath()
     {
         if ($this->layoutPath === null) {
@@ -141,11 +171,17 @@ class App extends BaseApp
         return $this->layoutPath;
     }
 
+    /**
+     * @param $path
+     */
     public function setLayoutPath($path)
     {
         $this->layoutPath = Meow::getAlias($path);
     }
 
+    /**
+     * @return string
+     */
     public function getViewPath()
     {
         if ($this->viewPath === null) {
@@ -154,13 +190,19 @@ class App extends BaseApp
         return $this->viewPath;
     }
 
+    /**
+     * @param $path
+     */
     public function setViewPath($path)
     {
         $this->viewPath = Meow::getAlias($path);
     }
 
 
-
+    /**
+     * @param $config
+     * @throws \Exception
+     */
     private function preInit($config)
     {
         if (isset($config['basePath'])) {

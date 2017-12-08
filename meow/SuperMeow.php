@@ -24,7 +24,13 @@ class SuperMeow
     /**
      * @var array registered path aliases
      */
-    public static $aliases = ['@meow' => __DIR__];
+    public static $aliases = [
+        '@web' => null,
+        '@webroot' => null,
+        '@vendor' => null,
+        '@app' => null,
+        '@meow' => __DIR__
+    ];
 
     public static function getAlias($alias){
         if (strncmp($alias, '@', 1)) {

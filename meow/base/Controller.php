@@ -13,17 +13,42 @@ use meow\base\Except;
 use meow\base\BaseApp;
 
 
+/**
+ * @property View view
+ * @property string viewPath
+ */
 abstract class Controller extends BaseApp
 {
     //public $id;
     //public $action;
 
+    /**
+     * @var string
+     */
     public $basePath = 'index/index';
+    /**
+     * @var View
+     */
     private $view;
+
+    /**
+     * @var string
+     */
     private $viewPath = '@app/views';
 
+    /**
+     * @var string
+     */
     public $layout = '@app/views/layouts/index';
+
+    /**
+     * @var
+     */
     public $viewName;
+
+    /**
+     * @var
+     */
     public $viewData;
 
     public function __construct()
@@ -85,7 +110,7 @@ abstract class Controller extends BaseApp
     public function getView()
     {
         if ($this->view === null) {
-            $this->view = new View();
+            Meow::$app->view = $this->view = new View();
         }
         return $this->view;
     }
@@ -93,6 +118,7 @@ abstract class Controller extends BaseApp
     public final function render($view, $params = [])
     {
         $content = $this->getView()->render($this, $view, $params);
+        Meow::$app->assetM->registerBundles();
         return $this->renderContent($content);
     }
 
@@ -100,7 +126,7 @@ abstract class Controller extends BaseApp
     {
         $layoutFile = $this->findLayoutFile($this->getView());
         if ($layoutFile !== false) {
-            return $this->getView()->renderPhpFile($layoutFile, ['content' => $content]);
+            return $this->getView()->renderLayout($layoutFile, ['content' => $content]);
         }
         return $content;
     }

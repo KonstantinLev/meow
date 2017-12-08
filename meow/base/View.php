@@ -28,9 +28,9 @@ class View extends BaseApp
     public $js;
     public $jsFiles;
 
-    public $defaultExtension = 'php';
+    public $_content;
 
-    private $_assetManager;
+    public $defaultExtension = 'php';
 
     public function head()
     {
@@ -79,6 +79,67 @@ class View extends BaseApp
         return ob_get_clean();
     }
 
+    public function renderLayout($_file_, $_params_ = [])
+    {
+        //TODO для загрузки лайаута + css/js и тп
+        if (file_exists($_file_)){
+            //$this->_params = $_params_;
+            $_obInitialLevel_ = ob_get_level();
+            ob_start();
+            ob_implicit_flush(false);
+            extract($_params_, EXTR_OVERWRITE);
+            try {
+                require $_file_;
+                $this->_content = ob_get_clean();
+                $this->prepareLayout();
+                return $this->_content;
+            }
+            catch (\Exception $ex){
+                while (ob_get_level() > $_obInitialLevel_) {
+                    if (!@ob_end_clean()) {
+                        ob_clean();
+                    }
+                }
+                throw $ex;
+            }
+        }
+        return null;
+    }
+
+    private function prepareLayout()
+    {
+        $result = $this->prepareContent($this->cssFiles);
+        $result = $this->prepareContent($this->jsFiles, $result);
+        $this->_content = strtr($this->_content, [
+            //View::META => $preparedMeta,
+            View::HEAD => $result['head'],
+            View::BODY_BEGIN => $result['bodyBegin'],
+            View::BODY_END => $result['bodyEnd']
+        ]);
+
+    }
+
+    private function prepareContent($files, $resultOut = false)
+    {
+        $resultOut = is_array($resultOut) ? $resultOut : [];
+        foreach($files as $file){
+            foreach($file as $pos => $val){
+                switch ($pos){
+                    case View::POS_HEAD:
+                        $resultOut['head'] .= $val;
+                        break;
+                    case View::POS_BEGIN:
+                        $resultOut['bodyBegin'] .= $val;
+                        break;
+                    case View::POS_END:
+                        $resultOut['bodyEnd'] .= $val;
+                        break;
+                }
+            }
+        }
+        return $resultOut;
+    }
+
     /**
      * @param $controller Controller
      * @param $view
@@ -116,5 +177,29 @@ class View extends BaseApp
         }
 
         return $path;
+    }
+
+    public function registerCssFile($url, $pos = View::POS_HEAD, $options = []){
+        //$path = Meow::$app->request->getBaseUrl().'/'.$url;
+        $url = Meow::getAlias($url);
+        //$content = Html::tag('link', '', array_merge($options, ['rel' => 'stylesheet', 'href' => $path]));
+        $content = '<link href="'.$url.'" rel="stylesheet">';
+        $this->cssFiles[][$pos] = $content;
+
+//        if ($position == View::POS_BODY_BEGIN){
+//            $this->_cssBodyBegin[] = $content;
+//        } else if ($position == View::POS_BODY_END){
+//            $this->_cssBodyEnd[] = $content;
+//        } else {
+//            $this->_cssHead[] = $content;
+//        }
+    }
+
+    public function registerJsFile($url, $pos = View::POS_END, $options = [])
+    {
+        $url = Meow::getAlias($url);
+        //$content = '<script type="text/javascript"></script>';
+        $content = '<script src="'.$url.'"></script>';
+        $this->jsFiles[][$pos] = $content;
     }
 }
