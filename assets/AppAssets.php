@@ -16,9 +16,11 @@ class AppAssets extends AssetBundle
 
     public $cssFiles = [
         'css/main.css',
+        'libs/bootstrap/css/bootstrap.min.css',
     ];
     public $jsFiles = [
         'js/main.js',
+        'libs/bootstrap/js/bootstrap.min.js',
     ];
     public $depends = [
         'meow\assets\MeowAsset',

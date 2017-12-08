@@ -1,3 +1,12 @@
+/*@font-face {*/
+    /*font-family: 'Regular';*/
+    /*src: url(../libs/bootstrap/fonts/);*/
+/*}*/
+
 body{
     background-color: #fff;
+}
+.meow-template{
+    padding: 60px 0 0 0;
+    text-align: center;
 }
