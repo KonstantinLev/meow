@@ -17,15 +17,9 @@ $config = [
         'controllersNamespace' => 'app\controllers',
         'baseControllersPath' => '@app/controllers'
     ],
-    'siteName' => 'php-site-core',
+    'siteName' => 'meow-app',
     'adminName' => 'Konstantin',
     'adminEmail' => 'x-stels@bk.ru',
-    'dir' => [
-      'text' => 'libs/text/',
-      'views' => 'views/',
-      'img' => 'files/img/',
-      'bower_asset' => 'vendor/bower-asset/',
-    ],
     'assets' => require(__DIR__ . '/assets.php'),
 ];
 

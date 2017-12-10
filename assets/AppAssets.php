@@ -11,16 +11,18 @@ use meow\base\AssetBundle;
 
 class AppAssets extends AssetBundle
 {
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
+    //TODO на винде и линухе работает по-разному, разобраться '/'
+    public $basePath = '@webroot/';
+    public $baseUrl = '@web/';
 
     public $cssFiles = [
-        'css/main.css',
         'libs/bootstrap/css/bootstrap.min.css',
-    ];
+        'css/main.css',
+];
     public $jsFiles = [
-        'js/main.js',
+        'libs/jquery/jquery-3.2.1.min.js',
         'libs/bootstrap/js/bootstrap.min.js',
+        'js/main.js',
     ];
     public $depends = [
         'meow\assets\MeowAsset',

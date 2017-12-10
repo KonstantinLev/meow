@@ -185,14 +185,6 @@ class View extends BaseApp
         //$content = Html::tag('link', '', array_merge($options, ['rel' => 'stylesheet', 'href' => $path]));
         $content = '<link href="'.$url.'" rel="stylesheet">';
         $this->cssFiles[][$pos] = $content;
-
-//        if ($position == View::POS_BODY_BEGIN){
-//            $this->_cssBodyBegin[] = $content;
-//        } else if ($position == View::POS_BODY_END){
-//            $this->_cssBodyEnd[] = $content;
-//        } else {
-//            $this->_cssHead[] = $content;
-//        }
     }
 
     public function registerJsFile($url, $pos = View::POS_END, $options = [])
