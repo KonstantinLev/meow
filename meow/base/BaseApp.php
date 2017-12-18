@@ -21,6 +21,11 @@ abstract class BaseApp extends Configurable
         parent::__construct($config);
     }
 
+    /**
+     * @param $name
+     * @return mixed
+     * @throws \Exception
+     */
     public function __get($name){
         $getter = 'get' . ucfirst($name);
         if (method_exists($this, $getter)) {
@@ -31,6 +36,12 @@ abstract class BaseApp extends Configurable
             throw new \Exception('Getting unknown property: ' . get_class($this) . '::' . $name);
         }
     }
+
+    /**
+     * @param $name
+     * @param $value
+     * @throws \Exception
+     */
     public function __set($name, $value){
         $setter = 'set' . ucfirst($name);
         if (method_exists($this, $setter)) {

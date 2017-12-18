@@ -8,7 +8,6 @@
 
 namespace meow\db;
 
-
 use meow\base\BaseApp;
 use meow\base\Model;
 
@@ -36,7 +35,7 @@ abstract class Schema extends BaseApp
     const TYPE_MONEY = 'money';
 
     /**
-     * @var Connection the database connection
+     * @var \meow\db\Connection
      */
     public $db;
 
@@ -53,6 +52,8 @@ abstract class Schema extends BaseApp
     public function __construct(array $config = [])
     {
         parent::__construct($config);
+        $this->db = $this->_config['db'];
+        $this->tableNames = $this->findTableNames();
     }
 
     /**
@@ -161,4 +162,10 @@ abstract class Schema extends BaseApp
      * @return TableSchema
      */
     public abstract function getTableSchema($name, $refresh = false);
+
+    /**
+     * @param $schema
+     * @return mixed
+     */
+    protected abstract function findTableNames($schema = '');
 }

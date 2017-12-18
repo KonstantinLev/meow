@@ -51,6 +51,9 @@ abstract class Controller extends BaseApp
      */
     public $viewData;
 
+    /**
+     * Controller constructor
+     */
     public function __construct()
     {
         $config = Meow::$app->_config['routing'];
@@ -70,6 +73,12 @@ abstract class Controller extends BaseApp
 
     public abstract function actionIndex();
 
+    /**
+     * @param $action
+     * @param array $params
+     * @return bool|Response|mixed|null
+     * @throws \Exception
+     */
     public final function runAction($action, $params = []){
         //if ($this->beforeAction($action, $params) !== false){
             if (method_exists($this, $action)) {
@@ -107,6 +116,9 @@ abstract class Controller extends BaseApp
         return null;
     }
 
+    /**
+     * @return View
+     */
     public function getView()
     {
         if ($this->view === null) {
@@ -115,6 +127,12 @@ abstract class Controller extends BaseApp
         return $this->view;
     }
 
+    /**
+     * @param $view
+     * @param array $params
+     * @return null|string
+     * @throws \Exception
+     */
     public final function render($view, $params = [])
     {
         $content = $this->getView()->render($this, $view, $params);
@@ -122,6 +140,11 @@ abstract class Controller extends BaseApp
         return $this->renderContent($content);
     }
 
+    /**
+     * @param $content
+     * @return null|string
+     * @throws \Exception
+     */
     public function renderContent($content)
     {
         $layoutFile = $this->findLayoutFile($this->getView());
@@ -131,6 +154,10 @@ abstract class Controller extends BaseApp
         return $content;
     }
 
+    /**
+     * @param $view
+     * @return bool|mixed|string
+     */
     public function findLayoutFile($view)
     {
         if (is_string($this->layout)) {
@@ -160,6 +187,9 @@ abstract class Controller extends BaseApp
         return $path;
     }
 
+    /**
+     * @return string
+     */
     public function getViewPath()
     {
         if ($this->viewPath === null) {

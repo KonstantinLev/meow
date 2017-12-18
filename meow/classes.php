@@ -12,7 +12,11 @@ return [
     'meow\base\Response' => MEOW_PATH.'/base/Response.php',
     'meow\base\Router' => MEOW_PATH.'/base/Router.php',
     'meow\base\View' => MEOW_PATH.'/base/View.php',
+    'meow\base\Model' => MEOW_PATH.'/base/Model.php',
+    'meow\base\ActiveModel' => MEOW_PATH.'/base/ActiveModel.php',
     'meow\db\Connection' => MEOW_PATH.'/db/Connection.php',
+    'meow\db\Schema' => MEOW_PATH.'/db/Schema.php',
+    'meow\db\mysql\Schema' => MEOW_PATH.'/db/mysql/Schema.php',
     'meow\db\Command' => MEOW_PATH.'/db/Command.php',
     'meow\helpers\ArrayHelper' => MEOW_PATH.'/helpers/ArrayHelper.php'
 ];

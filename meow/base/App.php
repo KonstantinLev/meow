@@ -91,6 +91,11 @@ class App extends BaseApp
      */
     public $actionName;
 
+    /**
+     * App constructor.
+     * @param array $config
+     * @throws \Exception
+     */
     public function __construct($config = [])
     {
         //TODO обработать исключение

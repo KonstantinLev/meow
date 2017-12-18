@@ -114,6 +114,10 @@ class SuperMeow
         return false;
     }
 
+    /**
+     * @param $className
+     * @throws \Exception
+     */
     public static function autoload($className)
     {
         if (array_key_exists($className, static::$classes)){

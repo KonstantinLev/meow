@@ -18,6 +18,12 @@ class Command
     private $sql;
     private $params;
 
+    /**
+     * Command constructor.
+     * @param $db
+     * @param $sql
+     * @param array $params
+     */
     public function __construct($db, $sql, $params = [])
     {
         $this->db = $db;
@@ -25,6 +31,10 @@ class Command
         $this->params = $params;
     }
 
+    /**
+     * @return \PDOStatement
+     * @throws \Exception
+     */
     public function execute(){
         if ($this->db->getPdo() == null){
             throw new \Exception('Cannot execute command. No connection with DB');
@@ -42,21 +52,37 @@ class Command
         return $statement;
     }
 
+    /**
+     * @return array
+     * @throws \Exception
+     */
     public function queryColumn(){
         $statement = $this->execute();
         return $statement->fetchAll(\PDO::FETCH_COLUMN);
     }
 
+    /**
+     * @return array
+     * @throws \Exception
+     */
     public function query(){
         $statement = $this->execute();
         return $statement->fetchAll();
     }
 
+    /**
+     * @return array
+     * @throws \Exception
+     */
     public function queryAssoc(){
         $statement = $this->execute();
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @param $data
+     * @return int|mixed
+     */
     public function getPdoType($data)
     {
         static $typeMap = [
@@ -71,6 +97,10 @@ class Command
         return isset($typeMap[$type]) ? $typeMap[$type] : \PDO::PARAM_STR;
     }
 
+    /**
+     * @return array
+     * @throws \Exception
+     */
     public function queryAll(){
         return $this->queryAssoc();
     }

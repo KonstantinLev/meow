@@ -21,18 +21,28 @@ class ActiveModel extends Model
         return '';
     }
 
+    /**
+     * ActiveModel constructor.
+     * @param array $config
+     * @throws \Exception
+     */
     public function __construct(array $config = [])
     {
-        $this->tableSchema = self::getTableSchema();
+        parent::__construct($config);
+        $this->tableSchema = static::getTableSchema();
         foreach ($this->tableSchema->columns as $key => $column){
             $this->createProperty($key);
+            //$this->$key = null;
             if ($column->isPrimaryKey){
                 $this->primaryKey = $key;
             }
         }
-        parent::__construct($config);
     }
 
+    /**
+     * @return \meow\db\TableSchema
+     * @throws \Exception
+     */
     public static function getTableSchema()
     {
         $tableSchema = Meow::$app->getDb()
@@ -44,5 +54,20 @@ class ActiveModel extends Model
         }
 
         return $tableSchema;
+    }
+
+    public function beforeSave()
+    {
+
+    }
+
+    public function afterSave()
+    {
+
+    }
+
+    public function save()
+    {
+
     }
 }

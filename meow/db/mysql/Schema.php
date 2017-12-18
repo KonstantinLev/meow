@@ -51,8 +51,6 @@ class Schema extends \meow\db\Schema
     public function __construct(array $config = [])
     {
         parent::__construct($config);
-        $this->db = $this->_config['db'];
-        $this->tableNames = $this->findTableNames();
     }
 
 //    public function refresh(){
@@ -72,6 +70,11 @@ class Schema extends \meow\db\Schema
         return $this->db->createCommand($sql)->queryColumn();
     }
 
+    /**
+     * @param $name
+     * @return TableSchema|null
+     * @throws \Exception
+     */
     protected function loadTableSchema($name)
     {
         $table = new TableSchema($name);
@@ -81,6 +84,12 @@ class Schema extends \meow\db\Schema
         return null;
     }
 
+    /**
+     * @param $name
+     * @param bool $refresh
+     * @return TableSchema|null
+     * @throws \Exception
+     */
     public function getTableSchema($name, $refresh = false)
     {
         if ($refresh){

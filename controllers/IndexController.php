@@ -14,15 +14,24 @@ use app\models\Orders;
 
 class IndexController extends Controller
 {
+    /**
+     * @return null|string
+     * @throws \Exception
+     */
     public function actionIndex()
     {
         var_dump(Meow::$app->getDb()->createCommand('select * from `orders`')->queryAll());
         $this->view->title = 'Привет';
         $orders = new Orders();
-        $test = $orders->load(array('test' => 'test', 'foo' => 'bar'));
+        $orders->load(['Orders' => ['name' => 'Константин', 'phone' => '666-66-66']]);
+        $a = $orders->name;
         return $this->render('index');
     }
 
+    /**
+     * @return null|string
+     * @throws \Exception
+     */
     public function actionTest()
     {
         $a = 'ту-ту';

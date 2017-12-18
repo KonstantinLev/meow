@@ -18,20 +18,26 @@ class Model extends BaseApp
 
     public function __construct(array $config = [])
     {
+        //TODO для теста
+        //$this->properties();
         parent::__construct($config);
     }
 
+    //TODO пока не используется
     public function properties()
     {
-        $class = new ReflectionClass($this);
-        $names = [];
-        foreach ($class->getProperties(\ReflectionProperty::IS_PUBLIC) as $property) {
-            if (!$property->isStatic()) {
-                $names[] = $property->getName();
-            }
-        }
-
-        return $names;
+//        $class = new ReflectionClass($this);
+//        $names = [];
+//        foreach ($class->getProperties(\ReflectionProperty::IS_PUBLIC) as $property) {
+//            if (!$property->isStatic()) {
+//                $names[] = $property->getName();
+//            }
+//        }
+//        return $names;
+//        foreach ($this->_properties as $key => $val) {
+//            $this->$key = $val;
+//        }
+        return $this->_properties;
     }
 
     /**
@@ -62,10 +68,11 @@ class Model extends BaseApp
     {
         //TODO не проверять по атрибутам
         if (is_array($values)) {
-            $properties = array_flip($this->properties());
+            //$properties = array_flip($this->properties());
             foreach ($values as $name => $value) {
-                if (isset($properties[$name])) {
-                    $this->$name = $value;
+                if (array_key_exists($name, $this->_properties)) {
+                    //$this->$name = $value;
+                    $this->_properties[$name] = $value;
                 }
             }
         }
@@ -73,13 +80,18 @@ class Model extends BaseApp
 
     public function hasProperty($name)
     {
-        return isset($this->_properties[$name]) || in_array($name, $this->properties(), true);
+        return isset($this->_properties[$name]) || in_array($name, $this->_properties, true);
     }
 
     public function createProperty($name, $value = null){
         if (!array_key_exists($name, $this->_properties)) $this->_properties[$name] = $value;
     }
 
+    /**
+     * @param $name
+     * @return mixed
+     * @throws \Exception
+     */
     public function __get($name)
     {
         if ($this->hasProperty($name)) {
@@ -88,10 +100,15 @@ class Model extends BaseApp
         return parent::__get($name);
     }
 
+    /**
+     * @param $name
+     * @param $value
+     * @return null|void
+     */
     public function __set($name, $value)
     {
         if ($this->hasProperty($name)) {
-            return $this->_properties[$name] = $value;
+            $this->_properties[$name] = $value;
         }
         return null;
         //return $this;

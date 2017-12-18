@@ -105,6 +105,10 @@ class Connection extends BaseApp
         return $this->_driverName;
     }
 
+    /**
+     * @return Schema
+     * @throws \Exception
+     */
     public function getSchema()
     {
         if ($this->_schema !== null) {
@@ -119,12 +123,24 @@ class Connection extends BaseApp
         throw new \Exception("Connection does not support reading schema information for '$driver' DBMS.");
     }
 
+    /**
+     * @param $name
+     * @param bool $refresh
+     * @return TableSchema
+     * @throws \Exception
+     */
     public function getTableSchema($name, $refresh = false)
     {
         return $this->getSchema()->getTableSchema($name, $refresh);
     }
 
-    public function createCommand($sql, $params = []){
+    /**
+     * @param $sql
+     * @param array $params
+     * @return Command
+     */
+    public function createCommand($sql, $params = [])
+    {
         return new Command($this, $sql, $params);
     }
 
