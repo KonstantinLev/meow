@@ -9,7 +9,31 @@
 
 namespace app\models;
 
-class Orders
-{
+use meow\base\ActiveModel;
 
+class Orders extends ActiveModel
+{
+    public $test;
+    public $foo;
+
+    public static function tableName()
+    {
+        return 'orders';
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'id заказа',
+            'product_ids' => 'id товаров, которые заказали',
+            'price' => 'цена всего заказа',
+            'name' => 'имя',
+            'phone' => 'телефон',
+            'email' => 'Email',
+            'address' => 'Адрес доставки',
+            'notice' => 'Примечания',
+            'is_delivery' => 'Доставка/самовывоз',
+            'date_order' => 'Дата звонка',
+        ];
+    }
 }

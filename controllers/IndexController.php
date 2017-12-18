@@ -10,13 +10,16 @@ namespace app\controllers;
 
 use meow\base\Controller;
 use Meow;
+use app\models\Orders;
 
 class IndexController extends Controller
 {
     public function actionIndex()
     {
-        //var_dump(Meow::$app->getDb()->createCommand('select * from `orders`')->queryAll());
+        var_dump(Meow::$app->getDb()->createCommand('select * from `orders`')->queryAll());
         $this->view->title = 'Привет';
+        $orders = new Orders();
+        $test = $orders->load(array('test' => 'test', 'foo' => 'bar'));
         return $this->render('index');
     }
 

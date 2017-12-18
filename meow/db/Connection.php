@@ -23,7 +23,22 @@ class Connection extends BaseApp
     public $username;
     public $password;
     public $charset;
+
+    public $schemaMap = [
+        'pgsql' => 'meow\db\pgsql\Schema', // PostgreSQL
+        'mysqli' => 'meow\db\mysql\Schema', // MySQL
+        'mysql' => 'meow\db\mysql\Schema', // MySQL
+        'sqlite' => 'meow\db\sqlite\Schema', // sqlite 3
+    ];
+
+    /**
+     * @var string driver name
+     */
     public $_driverName;
+    /**
+     * @var Schema the database schema
+     */
+    private $_schema;
 
     public function __construct($config = [])
     {
@@ -90,19 +105,24 @@ class Connection extends BaseApp
         return $this->_driverName;
     }
 
-//    public function getSchema()
-//    {
-//        if ($this->_schema !== null) {
-//            return $this->_schema;
-//        }
-//        $driver = $this->getDriverName();
-//        if (isset($this->schemaMap[$driver])) {
-//            $className = $this->schemaMap[$driver];
-//            $config = ['db' => $this];
-//            return $this->_schema = new $className($config);
-//        }
-//        throw new \Exception("Connection does not support reading schema information for '$driver' DBMS.");
-//    }
+    public function getSchema()
+    {
+        if ($this->_schema !== null) {
+            return $this->_schema;
+        }
+        $driver = $this->getDriverName();
+        if (isset($this->schemaMap[$driver])) {
+            $className = $this->schemaMap[$driver];
+            $config = ['db' => $this];
+            return $this->_schema = new $className($config);
+        }
+        throw new \Exception("Connection does not support reading schema information for '$driver' DBMS.");
+    }
+
+    public function getTableSchema($name, $refresh = false)
+    {
+        return $this->getSchema()->getTableSchema($name, $refresh);
+    }
 
     public function createCommand($sql, $params = []){
         return new Command($this, $sql, $params);
