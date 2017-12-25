@@ -11,10 +11,14 @@ namespace meow\base;
 
 use ReflectionClass;
 
+/**
+ * @property string modelName
+ */
 class Model extends BaseApp
 {
     //protected $_attributes;
     protected $_properties;
+    //protected $_oldProperties;
 
     public function __construct(array $config = [])
     {

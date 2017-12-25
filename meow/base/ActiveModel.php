@@ -11,10 +11,16 @@ namespace meow\base;
 
 use Meow;
 
+/**
+ * @property bool isNewRecord
+ * @property string primaryKey
+ */
 class ActiveModel extends Model
 {
     private $tableSchema;
     private $primaryKey;
+    //private $_properties;
+    private $_oldProperties = null;
 
     public static function tableName()
     {
@@ -56,6 +62,14 @@ class ActiveModel extends Model
         return $tableSchema;
     }
 
+    /**
+     * @return bool
+     */
+    public function getIsNewRecord()
+    {
+        return $this->_oldProperties === null;
+    }
+
     public function beforeSave()
     {
 
@@ -68,6 +82,14 @@ class ActiveModel extends Model
 
     public function save()
     {
-
+        //TODO обработать insert и update
+        $this->beforeSave();
+        if ($this->isNewRecord){
+            $result = $this->insert();
+        } else {
+            $result = $this->update();
+        }
+        $this->afterSave();
+        return $result;
     }
 }
