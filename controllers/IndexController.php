@@ -20,7 +20,7 @@ class IndexController extends Controller
      */
     public function actionIndex()
     {
-        var_dump(Meow::$app->getDb()->createCommand('select * from `orders`')->queryAll());
+        //var_dump(Meow::$app->getDb()->createCommand('select * from `orders`')->queryAll());
         $this->view->title = 'Привет';
         $orders = new Orders();
         $orders->load(['Orders' => ['name' => 'Константин', 'phone' => '666-66-66']]);

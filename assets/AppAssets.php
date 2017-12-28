@@ -12,8 +12,8 @@ use meow\base\AssetBundle;
 class AppAssets extends AssetBundle
 {
     //TODO на винде и линухе работает по-разному, разобраться '/'
-    public $basePath = '@webroot/';
-    public $baseUrl = '@web/';
+    public $basePath = '@webroot';
+    public $baseUrl = '@web';
 
     public $cssFiles = [
         'libs/bootstrap/css/bootstrap.min.css',

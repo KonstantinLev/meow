@@ -108,6 +108,11 @@ class AssetManager extends BaseApp
         $this->registeredBundles[] = $bundle::className();
     }
 
+    /**
+     * @param $path
+     * @return bool|string
+     * @throws \Exception
+     */
     public function publishFile($path)
     {
         $path = FileHelper::normalizePath(Meow::getAlias($path));
@@ -125,7 +130,7 @@ class AssetManager extends BaseApp
                 }
             }
             //return 'assets/' . basename($assetPath);
-            return $this->baseUrl . DIRECTORY_SEPARATOR . basename($path);
+            return $this->baseUrl . '/' . basename($path);
         }
         return false;
     }
