@@ -12,7 +12,7 @@ namespace app\models;
 use meow\base\ActiveModel;
 
 /**
- * This is the model class for table "INQUIRY_FORMS".
+ * This is the model class for table "orders".
  * Class Orders
  * @property $id
  * @property $product_ids
